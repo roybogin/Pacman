@@ -12,8 +12,8 @@ protected:
 	std::pair<int, int> target;
 	gameObject onSquare;
 public:
+	void move() = 0;
 	void chooseDirection();
-	virtual void move() = 0;
 	bool canChangeDirection(direction d);
 	virtual void setTarget() = 0;
 };
