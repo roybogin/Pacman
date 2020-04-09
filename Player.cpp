@@ -58,6 +58,24 @@ void Player::move()
 		location = pair<int, int>(nextRow, nextCol);
 		score++;
 		break;
+	case gameObject::POWER_PELLET:
+		setGameMap(row, col, gameObject::NOTHING);
+		setGameMap(nextRow, nextCol, gameObject::PLAYER);
+		location = pair<int, int>(nextRow, nextCol);
+		score += 10;
+		powerPelletTime = PELLET_TIME;
+		break;
+	case gameObject::RED_GHOST:
+	case gameObject::BLUE_GHOST:
+	case gameObject::ORANGE_GHOST:
+	case gameObject::PINK_GHOST:
+		if (powerPelletTime == 0)
+			exit(0);
+		else
+		{
+
+		}
+		break;
 	case gameObject::WALL:
 		break;
 	}	

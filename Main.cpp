@@ -2,9 +2,11 @@
 
 void init()
 {
+	srand(time(NULL));
 	window.setKeyRepeatEnabled(false);
 	score = 0;
 	speedCount = 0;
+	powerPelletTime = 0;
 	player = Player();
 	redGhost = RedGhost();
 }
@@ -18,6 +20,10 @@ void update()
 		redGhost.move();
 	if ((speedCount % (100 / PLAYER_SPEED) == 0) && (speedCount % (100 / GHOST_SPEED) == 0))
 		speedCount = 0;
+	if (powerPelletTime > 0)
+	{
+		powerPelletTime--;
+	}
 }
 
 void draw()

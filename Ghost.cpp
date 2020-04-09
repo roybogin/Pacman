@@ -127,8 +127,24 @@ void RedGhost::setTarget()
 
 void RedGhost::move()
 {
-	setTarget();
-	this->chooseDirection();
+	if (powerPelletTime == 0)
+	{
+		setTarget();
+		chooseDirection();
+	}
+	else
+	{
+		vector<direction> possibleDir;
+		if (canChangeDirection(UP))
+			possibleDir.push_back(UP);
+		if (canChangeDirection(DOWN))
+			possibleDir.push_back(DOWN);
+		if (canChangeDirection(LEFT))
+			possibleDir.push_back(LEFT);
+		if (canChangeDirection(RIGHT))
+			possibleDir.push_back(RIGHT);
+		dir = possibleDir[rand() % possibleDir.size()];
+	}
 	int row = location.first;
 	int col = location.second;
 	int nextRow = row;
@@ -160,16 +176,22 @@ void RedGhost::move()
 	}
 
 	gameObject obj = getInMap(nextRow, nextCol);
-	
-	if (obj != gameObject::WALL)
+
+	if (obj == gameObject::COIN || obj == gameObject::POWER_PELLET || obj == gameObject::NOTHING)
 	{
-		setGameMap(row, col, obj);
+		setGameMap(row, col, onSquare);
+		onSquare = obj;
 		setGameMap(nextRow, nextCol, gameObject::RED_GHOST);
 		location = pair<int, int>(nextRow, nextCol);
 	}
 	if (obj == gameObject::PLAYER)
 	{
-		exit(0);
+		if (powerPelletTime == 0)
+			exit(0);
+		else
+		{
+
+		}
 	}
 
 }

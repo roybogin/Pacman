@@ -51,7 +51,19 @@ vector<Shape*> getShape(int row, int col)
 		vector<Shape*> vec;
 		RectangleShape* shape = new RectangleShape(Vector2f(BLOCK_SIZE, BLOCK_SIZE));
 		shape->setPosition(Vector2f(col * BLOCK_SIZE, row * BLOCK_SIZE));
-		shape->setFillColor(Color(255, 0, 0));
+		if(powerPelletTime == 0)
+			shape->setFillColor(Color(255, 0, 0));
+		else
+			shape->setFillColor(Color(0, 0, 255));
+		vec.push_back(shape);
+		return vec;
+	}
+	case gameObject::POWER_PELLET:
+	{
+		vector<Shape*> vec;
+		CircleShape* shape = new CircleShape(BLOCK_SIZE / 2);
+		shape->setPosition(Vector2f(col * BLOCK_SIZE, row * BLOCK_SIZE));
+		shape->setFillColor(Color(255, 255, 255));
 		vec.push_back(shape);
 		return vec;
 	}
