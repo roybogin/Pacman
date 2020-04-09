@@ -5,9 +5,7 @@
 
 bool Ghost::canChangeDirection(Ghost::direction d)
 {
-	if (d == dir)
-		return true;
-	switch (d)
+	switch (dir)
 	{
 	case Ghost::UP:
 		if (d == DOWN)
@@ -55,6 +53,7 @@ bool Ghost::canChangeDirection(Ghost::direction d)
 void Ghost::chooseDirection()
 {
 	pair<int, int> nextLoc = location;
+	bool changed = false;
 	double dist;
 	direction minDir = dir;
 	double minLen = INT_MAX;
@@ -93,6 +92,17 @@ void Ghost::chooseDirection()
 		}
 	}
 
+	if (canChangeDirection(RIGHT))
+	{
+		nextLoc = pair<int, int>(location.first, location.second + 1);
+		dist = sqrt(pow(nextLoc.first - target.first, 2) + pow(nextLoc.second - target.second, 2));
+		if (dist < minLen)
+		{
+			minLen = dist;
+			minDir = RIGHT;
+		}
+	}
+
 	dir = minDir;
 
 }
@@ -117,6 +127,7 @@ void RedGhost::setTarget()
 
 void RedGhost::move()
 {
+	setTarget();
 	this->chooseDirection();
 	int row = location.first;
 	int col = location.second;
@@ -155,6 +166,10 @@ void RedGhost::move()
 		setGameMap(row, col, obj);
 		setGameMap(nextRow, nextCol, gameObject::RED_GHOST);
 		location = pair<int, int>(nextRow, nextCol);
+	}
+	if (obj == gameObject::PLAYER)
+	{
+		exit(0);
 	}
 
 }

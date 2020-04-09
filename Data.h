@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+enum gameObject { NOTHING = 0, COIN = 1, PLAYER = 2, WALL = 3, RED_GHOST = 4, BLUE_GHOST = 5, PINK_GHOST = 6, ORANGE_GHOST = 7 };
 #include "Player.h"
 #include "Ghost.h"
 
@@ -19,7 +20,6 @@ const int SPEED = 20;
 
 extern int speedCount;
 extern int score;
-enum gameObject { NOTHING = 0, COIN = 1, PLAYER = 2, WALL = 3, RED_GHOST = 4, BLUE_GHOST = 5, PINK_GHOST = 6, ORANGE_GHOST = 7};
 extern int gameMap[ROWS * COLS];
 
 extern RenderWindow window;
