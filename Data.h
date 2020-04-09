@@ -16,7 +16,8 @@ const int COLS = 28;
 const int BLOCK_SIZE = 30;
 const int BG_WIDTH = BLOCK_SIZE * COLS;
 const int BG_HEIGHT = BLOCK_SIZE * ROWS;
-const int SPEED = 20;
+const int PLAYER_SPEED = 20;
+const int GHOST_SPEED = 15;
 
 extern int speedCount;
 extern int score;

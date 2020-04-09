@@ -11,14 +11,13 @@ void init()
 
 void update()
 {
-	while (speedCount < 100 / SPEED)
-	{
-		speedCount++;
-		return;
-	}
-	speedCount = 0;
-	player.move();
-	redGhost.move();
+	speedCount++;
+	if (speedCount % (100 / PLAYER_SPEED) == 0)
+		player.move();
+	if (speedCount % (100 / GHOST_SPEED) == 0)
+		redGhost.move();
+	if ((speedCount % (100 / PLAYER_SPEED) == 0) && (speedCount % (100 / GHOST_SPEED) == 0))
+		speedCount = 0;
 }
 
 void draw()
@@ -28,9 +27,12 @@ void draw()
 	{
 		for (int col = 0; col < COLS; col++)
 		{
-			Shape* shape = getShape(row, col);
-			window.draw(*shape);
-			delete shape;
+			vector<Shape*> shapes = getShape(row, col);
+			for (Shape* shape : shapes)
+			{
+				window.draw(*shape);
+				delete shape;
+			}
 		}
 	}
 	window.display();

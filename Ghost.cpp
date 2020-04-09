@@ -113,7 +113,7 @@ void Ghost::chooseDirection()
 
 RedGhost::RedGhost()
 {
-	location = pair<int, int>(1, 10);
+	location = pair<int, int>(11, 14);
 	dir = LEFT;
 	onSquare = gameObject::NOTHING;
 }
