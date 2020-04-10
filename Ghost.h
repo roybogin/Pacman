@@ -13,6 +13,7 @@ protected:
 	gameObject onSquare;
 	bool isDead = false;
 	int powerPelletTime = 0;
+	bool isInGhostHouse;
 public:
 	virtual void move() = 0;
 	void chooseDirection();

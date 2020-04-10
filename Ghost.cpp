@@ -150,12 +150,22 @@ RedGhost::RedGhost()
 	location = pair<int, int>(11, 14);
 	dir = LEFT;
 	onSquare = gameObject::NOTHING;
+	isInGhostHouse = false;
 }
 
 void RedGhost::setTarget()
 {
-	std::pair<int, int> playerLocation = player.getLocation();
-	target = playerLocation;
+	if (!isDead)
+	{
+		if (isInGhostHouse)
+			target = std::pair<int, int>(11, 13);
+		else
+			target = player.getLocation();
+	}
+	else
+	{
+		target = std::pair<int, int>(14, 13);
+	}
 }
 
 
@@ -211,12 +221,27 @@ void RedGhost::move()
 
 	gameObject obj = getInMap(nextRow, nextCol);
 
+	if (onSquare == ONE_WAY_DOOR && dir == UP)
+	{
+		isInGhostHouse = false;
+	}
+
 	if (obj == gameObject::COIN || obj == gameObject::POWER_PELLET || obj == gameObject::NOTHING)
 	{
 		setGameMap(row, col, onSquare);
 		onSquare = obj;
 		setGameMap(nextRow, nextCol, gameObject::RED_GHOST);
 		location = pair<int, int>(nextRow, nextCol);
+	}
+	if (obj == gameObject::ONE_WAY_DOOR)
+	{
+		setGameMap(row, col, onSquare);
+		onSquare = obj;
+		setGameMap(nextRow, nextCol, gameObject::RED_GHOST);
+		location = pair<int, int>(nextRow, nextCol);
+		isInGhostHouse = true;
+		if (dir == DOWN)
+			isDead = false;
 	}
 	if (obj == gameObject::PLAYER)
 	{
@@ -227,7 +252,7 @@ void RedGhost::move()
 			else
 			{
 				isDead = true;
-				//set target
+				powerPelletTime = 0;
 			}
 		}
 		setGameMap(row, col, onSquare);

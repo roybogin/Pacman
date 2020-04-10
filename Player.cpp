@@ -73,6 +73,7 @@ void Player::move()
 			else
 			{
 				redGhost.setIsDead(true);
+				redGhost.setPelletTime(0);
 			}
 		}
 		setGameMap(row, col, gameObject::NOTHING);
