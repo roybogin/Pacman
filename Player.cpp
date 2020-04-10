@@ -63,18 +63,27 @@ void Player::move()
 		setGameMap(nextRow, nextCol, gameObject::PLAYER);
 		location = pair<int, int>(nextRow, nextCol);
 		score += 10;
-		powerPelletTime = PELLET_TIME;
+		redGhost.setPelletTime(PELLET_TIME);
 		break;
 	case gameObject::RED_GHOST:
-	case gameObject::BLUE_GHOST:
-	case gameObject::ORANGE_GHOST:
-	case gameObject::PINK_GHOST:
-		if (powerPelletTime == 0)
-			exit(0);
-		else
+		if (!redGhost.getIsDead())
 		{
-
+			if (redGhost.getPelletTime() == 0)
+				exit(0);
+			else
+			{
+				redGhost.setIsDead(true);
+			}
 		}
+		setGameMap(row, col, gameObject::NOTHING);
+		setGameMap(nextRow, nextCol, gameObject::PLAYER);
+		location = pair<int, int>(nextRow, nextCol);
+		break;
+	case gameObject::BLUE_GHOST:
+		break;
+	case gameObject::ORANGE_GHOST:
+		break;
+	case gameObject::PINK_GHOST:
 		break;
 	case gameObject::WALL:
 		break;
@@ -92,20 +101,28 @@ bool Player::canChangeDirection(direction d)
 	{
 	case Player::UP:
 		nextRow = row - 1;
+		if (nextRow == -1)
+			nextRow = ROWS - 1;
 		break;
 	case Player::DOWN:
 		nextRow = row + 1;
+		if (nextRow == ROWS)
+			nextRow = 0;
 		break;
 	case Player::LEFT:
 		nextCol = col - 1;
+		if (nextCol == -1)
+			nextCol = COLS - 1;
 		break;
 	case Player::RIGHT:
 		nextCol = col + 1;
+		if (nextCol == COLS)
+			nextCol = 0;
 		break;
 	default:
 		break;
 	}
-	return getInMap(nextRow, nextCol) != gameObject::WALL;
+	return (getInMap(nextRow, nextCol) != gameObject::WALL && getInMap(nextRow, nextCol) != gameObject::ONE_WAY_DOOR);
 }
 
 void Player::setDirection(direction d)

@@ -1,6 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-enum gameObject { NOTHING = 0, COIN = 1, PLAYER = 2, WALL = 3, RED_GHOST = 4, BLUE_GHOST = 5, PINK_GHOST = 6, ORANGE_GHOST = 7, POWER_PELLET = 8 };
+enum gameObject { NOTHING = 0, COIN = 1, PLAYER = 2, WALL = 3, RED_GHOST = 4, BLUE_GHOST = 5, PINK_GHOST = 6, ORANGE_GHOST = 7, POWER_PELLET = 8, ONE_WAY_DOOR = 9 };
 #include "Player.h"
 #include "Ghost.h"
 
@@ -23,7 +23,6 @@ const int PELLET_TIME = 150;
 extern int speedCount;
 extern int score;
 extern int gameMap[ROWS * COLS];
-extern int powerPelletTime;
 
 extern RenderWindow window;
 extern Player player;

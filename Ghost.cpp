@@ -7,7 +7,7 @@ bool Ghost::canChangeDirection(Ghost::direction d)
 {
 	switch (dir)
 	{
-	case Ghost::UP:
+	case Ghost::UP:	//can't turn back
 		if (d == DOWN)
 			return false;
 		break;
@@ -34,23 +34,37 @@ bool Ghost::canChangeDirection(Ghost::direction d)
 	{
 	case Ghost::UP:
 		nextRow = row - 1;
+		if (nextRow == -1)
+			nextRow = ROWS - 1;
 		break;
 	case Ghost::DOWN:
 		nextRow = row + 1;
+		if (nextRow == ROWS)
+			nextRow = 0;
 		break;
 	case Ghost::LEFT:
 		nextCol = col - 1;
+		if (nextCol == -1)
+			nextCol = COLS - 1;
 		break;
 	case Ghost::RIGHT:
 		nextCol = col + 1;
+		if (nextCol == COLS)
+			nextCol = 0;
 		break;
 	default:
 		break;
 	}
-	return getInMap(nextRow, nextCol) != gameObject::WALL;
+	if (getInMap(nextRow, nextCol) == gameObject::WALL)
+		return false;
+	if (getInMap(nextRow, nextCol) != gameObject::ONE_WAY_DOOR)
+		return true;
+	if (isDead)
+		return true;
+	return d == UP;
 }
 
-void Ghost::chooseDirection()
+void Ghost::chooseDirection()	//minimum distance to target
 {
 	pair<int, int> nextLoc = location;
 	bool changed = false;
@@ -105,6 +119,26 @@ void Ghost::chooseDirection()
 
 	dir = minDir;
 
+}
+
+void Ghost::setIsDead(bool dead)
+{
+	isDead = dead;
+}
+
+bool Ghost::getIsDead()
+{
+	return isDead;
+}
+
+void Ghost::setPelletTime(int time)
+{
+	powerPelletTime = time;
+}
+
+int Ghost::getPelletTime()
+{
+	return powerPelletTime;
 }
 
 
@@ -186,12 +220,21 @@ void RedGhost::move()
 	}
 	if (obj == gameObject::PLAYER)
 	{
-		if (powerPelletTime == 0)
-			exit(0);
-		else
+		if (!isDead)
 		{
-
+			if (powerPelletTime == 0)
+				exit(0);
+			else
+			{
+				isDead = true;
+				//set target
+			}
 		}
+		setGameMap(row, col, onSquare);
+		onSquare = NOTHING;
+		setGameMap(nextRow, nextCol, gameObject::RED_GHOST);
+		location = pair<int, int>(nextRow, nextCol);
+		
 	}
 
 }

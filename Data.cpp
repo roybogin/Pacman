@@ -7,9 +7,8 @@ Texture bgTexture;
 RectangleShape bgShape;
 int speedCount;
 int score;
-int powerPelletTime;
 
-///enum gameObject { NOTHING = 0, COIN = 1, PLAYER = 2, WALL = 3, RED_GHOST = 4, BLUE_GHOST = 5, PINK_GHOST = 6, ORANGE_GHOST = 7 };
+//enum gameObject { NOTHING = 0, COIN = 1, PLAYER = 2, WALL = 3, RED_GHOST = 4, BLUE_GHOST = 5, PINK_GHOST = 6, ORANGE_GHOST = 7, POWER_PELLET = 8, ONE_WAY_DOOR = 9 };
 
 int gameMap[ROWS * COLS] = 
 {
@@ -25,7 +24,7 @@ int gameMap[ROWS * COLS] =
 	3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 0, 3, 3, 0, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3,
 	0, 0, 0, 0, 0, 3, 1, 3, 3, 3, 3, 3, 0, 3, 3, 0, 3, 3, 3, 3, 3, 1, 3, 0, 0, 0, 0, 0,
 	0, 0, 0, 0, 0, 3, 1, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 1, 3, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 3, 1, 3, 3, 0, 3, 3, 3, 3, 3, 3, 3, 3, 0, 3, 3, 1, 3, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 3, 1, 3, 3, 0, 3, 3, 3, 9, 9, 3, 3, 3, 0, 3, 3, 1, 3, 0, 0, 0, 0, 0,
 	3, 3, 3, 3, 3, 3, 1, 3, 3, 0, 3, 0, 0, 0, 0, 0, 0, 3, 0, 3, 3, 1, 3, 3, 3, 3, 3, 3,
 	0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,
 	3, 3, 3, 3, 3, 3, 1, 3, 3, 0, 3, 0, 0, 0, 0, 0, 0, 3, 0, 3, 3, 1, 3, 3, 3, 3, 3, 3,

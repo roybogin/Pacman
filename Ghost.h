@@ -11,11 +11,17 @@ protected:
 	direction dir;
 	std::pair<int, int> target;
 	gameObject onSquare;
+	bool isDead = false;
+	int powerPelletTime = 0;
 public:
 	virtual void move() = 0;
 	void chooseDirection();
 	bool canChangeDirection(direction d);
 	virtual void setTarget() = 0;
+	void setIsDead(bool dead);
+	bool getIsDead();
+	void setPelletTime(int time);
+	int getPelletTime();
 };
 
 class RedGhost : public Ghost

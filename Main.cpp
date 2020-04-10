@@ -6,7 +6,6 @@ void init()
 	window.setKeyRepeatEnabled(false);
 	score = 0;
 	speedCount = 0;
-	powerPelletTime = 0;
 	player = Player();
 	redGhost = RedGhost();
 }
@@ -20,9 +19,9 @@ void update()
 		redGhost.move();
 	if ((speedCount % (100 / PLAYER_SPEED) == 0) && (speedCount % (100 / GHOST_SPEED) == 0))
 		speedCount = 0;
-	if (powerPelletTime > 0)
+	if (redGhost.getPelletTime() > 0)
 	{
-		powerPelletTime--;
+		redGhost.setPelletTime(redGhost.getPelletTime() - 1);
 	}
 }
 
@@ -33,7 +32,7 @@ void draw()
 	{
 		for (int col = 0; col < COLS; col++)
 		{
-			vector<Shape*> shapes = getShape(row, col);
+			vector<Shape*> shapes = getShapes(row, col);
 			for (Shape* shape : shapes)
 			{
 				window.draw(*shape);

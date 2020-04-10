@@ -1,5 +1,5 @@
 #include "Funcs.h"
-vector<Shape*> getShape(int row, int col)
+vector<Shape*> getShapes(int row, int col)
 {
 
 	switch (getInMap(row, col))
@@ -24,7 +24,7 @@ vector<Shape*> getShape(int row, int col)
 
 		RectangleShape* shape2 = new RectangleShape(Vector2f(BLOCK_SIZE/9.0, BLOCK_SIZE/9.0));
 		shape2->setPosition(Vector2f((col + 1.0/3) * BLOCK_SIZE, (row + 1.0/3) * BLOCK_SIZE));
-		shape2->setFillColor(Color(255, 255, 255));
+		shape2->setFillColor(Color(255, 184, 151));
 		vec.push_back(shape2);
 		return vec;
 	}
@@ -42,7 +42,7 @@ vector<Shape*> getShape(int row, int col)
 		vector<Shape*> vec;
 		RectangleShape* shape = new RectangleShape(Vector2f(BLOCK_SIZE, BLOCK_SIZE));
 		shape->setPosition(Vector2f(col * BLOCK_SIZE, row * BLOCK_SIZE));
-		shape->setFillColor(Color(0, 0, 255));
+		shape->setFillColor(Color(33, 33, 222));
 		vec.push_back(shape);
 		return vec;
 	}
@@ -51,11 +51,27 @@ vector<Shape*> getShape(int row, int col)
 		vector<Shape*> vec;
 		RectangleShape* shape = new RectangleShape(Vector2f(BLOCK_SIZE, BLOCK_SIZE));
 		shape->setPosition(Vector2f(col * BLOCK_SIZE, row * BLOCK_SIZE));
-		if(powerPelletTime == 0)
-			shape->setFillColor(Color(255, 0, 0));
+		if (!redGhost.getIsDead())
+		{
+			if (redGhost.getPelletTime() == 0)
+				shape->setFillColor(Color(255, 0, 0));
+			else
+				shape->setFillColor(Color(0, 0, 255));
+		}
 		else
-			shape->setFillColor(Color(0, 0, 255));
+			shape->setFillColor(Color(0, 0, 0));
 		vec.push_back(shape);
+
+		CircleShape* eye1 = new CircleShape(BLOCK_SIZE / 4);
+		eye1->setPosition(Vector2f(col * BLOCK_SIZE, row * BLOCK_SIZE));
+		eye1->setFillColor(Color(255, 255, 255));
+		vec.push_back(eye1);
+
+		CircleShape* eye2 = new CircleShape(BLOCK_SIZE / 4);
+		eye2->setPosition(Vector2f((col + 0.5) * BLOCK_SIZE, row * BLOCK_SIZE));
+		eye2->setFillColor(Color(255, 255, 255));
+		vec.push_back(eye2);
+
 		return vec;
 	}
 	case gameObject::POWER_PELLET:
@@ -63,7 +79,16 @@ vector<Shape*> getShape(int row, int col)
 		vector<Shape*> vec;
 		CircleShape* shape = new CircleShape(BLOCK_SIZE / 2);
 		shape->setPosition(Vector2f(col * BLOCK_SIZE, row * BLOCK_SIZE));
-		shape->setFillColor(Color(255, 255, 255));
+		shape->setFillColor(Color(255, 184, 151));
+		vec.push_back(shape);
+		return vec;
+	}
+	case gameObject::ONE_WAY_DOOR:
+	{
+		vector<Shape*> vec;
+		RectangleShape* shape = new RectangleShape(Vector2f(BLOCK_SIZE, BLOCK_SIZE/2));
+		shape->setPosition(Vector2f(col * BLOCK_SIZE, (row + 0.25) * BLOCK_SIZE));
+		shape->setFillColor(Color(255, 184, 222));
 		vec.push_back(shape);
 		return vec;
 	}
