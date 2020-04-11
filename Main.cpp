@@ -9,6 +9,7 @@ void init()
 	player = Player();
 	redGhost = RedGhost();
 	blueGhost = BlueGhost();
+	pinkGhost = PinkGhost();
 }
 
 void update()
@@ -21,6 +22,8 @@ void update()
 		redGhost.move();
 	if (speedCount % (100 / GHOST_SPEED) == 0)
 		blueGhost.move();
+	if (speedCount % (100 / GHOST_SPEED) == 0)
+		pinkGhost.move();
 
 	if ((speedCount % (100 / PLAYER_SPEED) == 0) && (speedCount % (100 / GHOST_SPEED) == 0))
 		speedCount = 0;
@@ -31,8 +34,19 @@ void update()
 	}
 	if (blueGhost.getPelletTime() > 0)
 	{
-		blueGhost.setPelletTime(redGhost.getPelletTime() - 1);
+		blueGhost.setPelletTime(blueGhost.getPelletTime() - 1);
 	}
+	if (pinkGhost.getPelletTime() > 0)
+	{
+		pinkGhost.setPelletTime(pinkGhost.getPelletTime() - 1);
+	}
+
+	setGameMap(pinkGhost.getLocation().first, pinkGhost.getLocation().second, PINK_GHOST);
+	setGameMap(blueGhost.getLocation().first, blueGhost.getLocation().second, BLUE_GHOST);
+	setGameMap(redGhost.getLocation().first, redGhost.getLocation().second, RED_GHOST);
+
+	setGameMap(player.getLocation().first, player.getLocation().second, PLAYER);
+
 }
 
 void draw()

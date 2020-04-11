@@ -65,6 +65,7 @@ void Player::move()
 		score += 10;
 		redGhost.setPelletTime(PELLET_TIME);
 		blueGhost.setPelletTime(PELLET_TIME);
+		pinkGhost.setPelletTime(PELLET_TIME);
 		break;
 	case gameObject::RED_GHOST:
 		if (!redGhost.getIsDead())
@@ -96,9 +97,22 @@ void Player::move()
 		setGameMap(nextRow, nextCol, gameObject::PLAYER);
 		location = pair<int, int>(nextRow, nextCol);
 		break;
-	case gameObject::ORANGE_GHOST:
-		break;
 	case gameObject::PINK_GHOST:
+		if (!pinkGhost.getIsDead())
+		{
+			if (pinkGhost.getPelletTime() == 0)
+				exit(0);
+			else
+			{
+				pinkGhost.setIsDead(true);
+				pinkGhost.setPelletTime(0);
+			}
+		}
+		setGameMap(row, col, gameObject::NOTHING);
+		setGameMap(nextRow, nextCol, gameObject::PLAYER);
+		location = pair<int, int>(nextRow, nextCol);
+		break;
+	case gameObject::ORANGE_GHOST:
 		break;
 	case gameObject::WALL:
 		break;

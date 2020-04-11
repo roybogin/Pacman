@@ -4,8 +4,9 @@ RenderWindow window(VideoMode(BG_WIDTH, BG_HEIGHT), "Pacman");
 Player player;
 RedGhost redGhost;
 BlueGhost blueGhost;
-Texture bgTexture;
-RectangleShape bgShape;
+PinkGhost pinkGhost;
+OrangeGhost orangeGhost;
+
 int speedCount;
 int score;
 

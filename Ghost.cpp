@@ -146,6 +146,10 @@ gameObject Ghost::getOnSquare()
 	return onSquare;
 }
 
+pair<int, int> Ghost::getLocation()
+{
+	return location;
+}
 
 
 ///////////////////////RED///////////////////////
@@ -271,13 +275,16 @@ void RedGhost::move()
 		setGameMap(nextRow, nextCol, gameObject::RED_GHOST);
 		location = pair<int, int>(nextRow, nextCol);
 	}
+	if (obj == gameObject::PINK_GHOST)
+	{
+		setGameMap(row, col, onSquare);
+		onSquare = pinkGhost.getOnSquare();
+		setGameMap(nextRow, nextCol, gameObject::PINK_GHOST);
+		location = pair<int, int>(nextRow, nextCol);
+	}
 
 }
 
-pair<int, int> RedGhost::getLocation()
-{
-	return location;
-}
 
 ///////////////////////BLUE///////////////////////
 
@@ -423,4 +430,165 @@ void BlueGhost::move()
 		setGameMap(nextRow, nextCol, gameObject::RED_GHOST);
 		location = pair<int, int>(nextRow, nextCol);
 	}
+	if (obj == gameObject::PINK_GHOST)
+	{
+		setGameMap(row, col, onSquare);
+		onSquare = pinkGhost.getOnSquare();
+		setGameMap(nextRow, nextCol, gameObject::PINK_GHOST);
+		location = pair<int, int>(nextRow, nextCol);
+	}
 }
+
+
+///////////////////////PINK///////////////////////
+
+PinkGhost::PinkGhost()
+{
+	location = pair<int, int>(14, 14);
+	dir = LEFT;
+	onSquare = gameObject::NOTHING;
+	isInGhostHouse = true;
+}
+
+void PinkGhost::setTarget()
+{
+	if (!isDead)
+	{
+		if (isInGhostHouse)
+			target = std::pair<int, int>(11, 13);
+		else
+		{
+			pair<int, int> playerLocation = player.getLocation();
+			switch (player.getDirection())
+			{
+			case Player::UP:
+				playerLocation.first -= 4;
+				break;
+			case Player::DOWN:
+				playerLocation.first += 4;
+				break;
+			case Player::LEFT:
+				playerLocation.second -= 4;
+				break;
+			case Player::RIGHT:
+				playerLocation.second += 4;
+				break;
+			default:
+				break;
+			}
+			target = playerLocation;
+		}
+	}
+	else
+	{
+		target = std::pair<int, int>(14, 13);
+	}
+}
+
+void PinkGhost::move()
+{
+	if (powerPelletTime == 0)
+	{
+		setTarget();
+		chooseDirection();
+	}
+	else
+	{
+		vector<direction> possibleDir;
+		if (canChangeDirection(UP))
+			possibleDir.push_back(UP);
+		if (canChangeDirection(DOWN))
+			possibleDir.push_back(DOWN);
+		if (canChangeDirection(LEFT))
+			possibleDir.push_back(LEFT);
+		if (canChangeDirection(RIGHT))
+			possibleDir.push_back(RIGHT);
+		dir = possibleDir[rand() % possibleDir.size()];
+	}
+	int row = location.first;
+	int col = location.second;
+	int nextRow = row;
+	int nextCol = col;
+	switch (dir)
+	{
+	case UP:
+		nextRow = row - 1;
+		if (nextRow == -1)
+			nextRow = ROWS - 1;
+		break;
+	case DOWN:
+		nextRow = row + 1;
+		if (nextRow == ROWS)
+			nextRow = 0;
+		break;
+	case LEFT:
+		nextCol = col - 1;
+		if (nextCol == -1)
+			nextCol = COLS - 1;
+		break;
+	case RIGHT:
+		nextCol = col + 1;
+		if (nextCol == COLS)
+			nextCol = 0;
+		break;
+	default:
+		break;
+	}
+
+	gameObject obj = getInMap(nextRow, nextCol);
+
+	if (onSquare == ONE_WAY_DOOR && dir == UP)
+	{
+		isInGhostHouse = false;
+	}
+
+	if (obj == gameObject::COIN || obj == gameObject::POWER_PELLET || obj == gameObject::NOTHING)
+	{
+		setGameMap(row, col, onSquare);
+		onSquare = obj;
+		setGameMap(nextRow, nextCol, gameObject::PINK_GHOST);
+		location = pair<int, int>(nextRow, nextCol);
+	}
+	if (obj == gameObject::ONE_WAY_DOOR)
+	{
+		setGameMap(row, col, onSquare);
+		onSquare = obj;
+		setGameMap(nextRow, nextCol, gameObject::PINK_GHOST);
+		location = pair<int, int>(nextRow, nextCol);
+		isInGhostHouse = true;
+		if (dir == DOWN)
+			isDead = false;
+	}
+	if (obj == gameObject::PLAYER)
+	{
+		if (!isDead)
+		{
+			if (powerPelletTime == 0)
+				exit(0);
+			else
+			{
+				isDead = true;
+				powerPelletTime = 0;
+			}
+		}
+		setGameMap(row, col, onSquare);
+		onSquare = NOTHING;
+		setGameMap(nextRow, nextCol, gameObject::PINK_GHOST);
+		location = pair<int, int>(nextRow, nextCol);
+	}
+	if (obj == gameObject::RED_GHOST)
+	{
+		setGameMap(row, col, onSquare);
+		onSquare = redGhost.getOnSquare();
+		setGameMap(nextRow, nextCol, gameObject::RED_GHOST);
+		location = pair<int, int>(nextRow, nextCol);
+	}
+	if (obj == gameObject::BLUE_GHOST)
+	{
+		setGameMap(row, col, onSquare);
+		onSquare = blueGhost.getOnSquare();
+		setGameMap(nextRow, nextCol, gameObject::BLUE_GHOST);
+		location = pair<int, int>(nextRow, nextCol);
+	}
+}
+

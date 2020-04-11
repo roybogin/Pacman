@@ -102,6 +102,34 @@ vector<Shape*> getShapes(int row, int col)
 
 		return vec;
 	}
+	case gameObject::PINK_GHOST:
+	{
+		vector<Shape*> vec;
+		RectangleShape* shape = new RectangleShape(Vector2f(BLOCK_SIZE, BLOCK_SIZE));
+		shape->setPosition(Vector2f(col * BLOCK_SIZE, row * BLOCK_SIZE));
+		if (!pinkGhost.getIsDead())
+		{
+			if (pinkGhost.getPelletTime() == 0)
+				shape->setFillColor(Color(255, 184, 255));
+			else
+				shape->setFillColor(Color(0, 0, 255));
+		}
+		else
+			shape->setFillColor(Color(0, 0, 0));
+		vec.push_back(shape);
+
+		CircleShape* eye1 = new CircleShape(BLOCK_SIZE / 4);
+		eye1->setPosition(Vector2f(col * BLOCK_SIZE, row * BLOCK_SIZE));
+		eye1->setFillColor(Color(255, 255, 255));
+		vec.push_back(eye1);
+
+		CircleShape* eye2 = new CircleShape(BLOCK_SIZE / 4);
+		eye2->setPosition(Vector2f((col + 0.5) * BLOCK_SIZE, row * BLOCK_SIZE));
+		eye2->setFillColor(Color(255, 255, 255));
+		vec.push_back(eye2);
+
+		return vec;
+	}
 	case gameObject::POWER_PELLET:
 	{
 		vector<Shape*> vec;

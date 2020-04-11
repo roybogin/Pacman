@@ -10,6 +10,8 @@ using namespace sf;
 class Player;
 class RedGhost;
 class BlueGhost;
+class PinkGhost;
+class OrangeGhost;
 
 const int playerRadius = 10;
 const int ROWS = 31;
@@ -29,3 +31,5 @@ extern RenderWindow window;
 extern Player player;
 extern RedGhost redGhost;
 extern BlueGhost blueGhost;
+extern PinkGhost pinkGhost;
+//extern OrangeGhost orangeGhost;
