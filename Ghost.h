@@ -23,6 +23,7 @@ public:
 	bool getIsDead();
 	void setPelletTime(int time);
 	int getPelletTime();
+	gameObject getOnSquare();
 };
 
 class RedGhost : public Ghost
@@ -31,6 +32,37 @@ private:
 	
 public:
 	RedGhost();
+	virtual void setTarget();
+	virtual void move();
+	std::pair<int, int> getLocation();
+};
+
+class BlueGhost : public Ghost
+{
+private:
+
+public:
+	BlueGhost();
+	virtual void setTarget();
+	virtual void move();
+};
+
+class OrangeGhost : public Ghost
+{
+private:
+
+public:
+	OrangeGhost();
+	virtual void setTarget();
+	virtual void move();
+};
+
+class PinkGhost : public Ghost
+{
+private:
+
+public:
+	PinkGhost();
 	virtual void setTarget();
 	virtual void move();
 };

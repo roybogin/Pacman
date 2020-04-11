@@ -15,4 +15,5 @@ public:
 	void setDirection(direction d);
 	void move();
 	bool canChangeDirection(direction d);
+	direction getDirection();
 };

@@ -8,6 +8,7 @@ void init()
 	speedCount = 0;
 	player = Player();
 	redGhost = RedGhost();
+	blueGhost = BlueGhost();
 }
 
 void update()
@@ -15,13 +16,22 @@ void update()
 	speedCount++;
 	if (speedCount % (100 / PLAYER_SPEED) == 0)
 		player.move();
+
 	if (speedCount % (100 / GHOST_SPEED) == 0)
 		redGhost.move();
+	if (speedCount % (100 / GHOST_SPEED) == 0)
+		blueGhost.move();
+
 	if ((speedCount % (100 / PLAYER_SPEED) == 0) && (speedCount % (100 / GHOST_SPEED) == 0))
 		speedCount = 0;
+
 	if (redGhost.getPelletTime() > 0)
 	{
 		redGhost.setPelletTime(redGhost.getPelletTime() - 1);
+	}
+	if (blueGhost.getPelletTime() > 0)
+	{
+		blueGhost.setPelletTime(redGhost.getPelletTime() - 1);
 	}
 }
 

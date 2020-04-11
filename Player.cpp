@@ -64,6 +64,7 @@ void Player::move()
 		location = pair<int, int>(nextRow, nextCol);
 		score += 10;
 		redGhost.setPelletTime(PELLET_TIME);
+		blueGhost.setPelletTime(PELLET_TIME);
 		break;
 	case gameObject::RED_GHOST:
 		if (!redGhost.getIsDead())
@@ -81,6 +82,19 @@ void Player::move()
 		location = pair<int, int>(nextRow, nextCol);
 		break;
 	case gameObject::BLUE_GHOST:
+		if (!blueGhost.getIsDead())
+		{
+			if (blueGhost.getPelletTime() == 0)
+				exit(0);
+			else
+			{
+				blueGhost.setIsDead(true);
+				blueGhost.setPelletTime(0);
+			}
+		}
+		setGameMap(row, col, gameObject::NOTHING);
+		setGameMap(nextRow, nextCol, gameObject::PLAYER);
+		location = pair<int, int>(nextRow, nextCol);
 		break;
 	case gameObject::ORANGE_GHOST:
 		break;
@@ -129,4 +143,9 @@ bool Player::canChangeDirection(direction d)
 void Player::setDirection(direction d)
 {
 	dir = d;
+}
+
+Player::direction Player::getDirection()
+{
+	return dir;
 }

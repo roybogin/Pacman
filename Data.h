@@ -9,6 +9,7 @@ using namespace sf;
 
 class Player;
 class RedGhost;
+class BlueGhost;
 
 const int playerRadius = 10;
 const int ROWS = 31;
@@ -27,3 +28,4 @@ extern int gameMap[ROWS * COLS];
 extern RenderWindow window;
 extern Player player;
 extern RedGhost redGhost;
+extern BlueGhost blueGhost;
