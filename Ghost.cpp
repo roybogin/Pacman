@@ -61,7 +61,7 @@ bool Ghost::canChangeDirection(Ghost::direction d)
 		return true;
 	if (isDead)
 		return true;
-	return d == UP;
+	return (d == UP && canGetOut);
 }
 
 void Ghost::chooseDirection()	//minimum distance to target
@@ -161,33 +161,7 @@ bool Ghost::getCanGetOut()
 	return canGetOut;
 }
 
-///////////////////////RED///////////////////////
-
-RedGhost::RedGhost()
-{
-	location = pair<int, int>(11, 14);
-	dir = LEFT;
-	onSquare = gameObject::NOTHING;
-	isInGhostHouse = false;
-	canGetOut = true;
-}
-
-void RedGhost::setTarget()
-{
-	if (!isDead)
-	{
-		if (isInGhostHouse)
-			target = std::pair<int, int>(11, 13);
-		else
-			target = player.getLocation();
-	}
-	else
-	{
-		target = std::pair<int, int>(14, 13);
-	}
-}
-
-void RedGhost::move()
+pair<int, int> Ghost::getNextLocation()
 {
 	if (powerPelletTime == 0)
 	{
@@ -236,6 +210,43 @@ void RedGhost::move()
 	default:
 		break;
 	}
+
+	return pair<int, int>(nextRow, nextCol);
+}
+
+///////////////////////RED///////////////////////
+
+RedGhost::RedGhost()
+{
+	location = pair<int, int>(11, 14);
+	dir = LEFT;
+	onSquare = gameObject::NOTHING;
+	isInGhostHouse = false;
+	canGetOut = true;
+}
+
+void RedGhost::setTarget()
+{
+	if (!isDead)
+	{
+		if (isInGhostHouse)
+			target = std::pair<int, int>(11, 13);
+		else
+			target = player.getLocation();
+	}
+	else
+	{
+		target = std::pair<int, int>(14, 13);
+	}
+}
+
+void RedGhost::move()
+{
+	pair<int, int> nextLocation = getNextLocation();
+	int nextRow = nextLocation.first;
+	int nextCol = nextLocation.second;
+	int row = location.first;
+	int col = location.second;
 
 	gameObject obj = getInMap(nextRow, nextCol);
 
@@ -359,53 +370,11 @@ void BlueGhost::setTarget()
 
 void BlueGhost::move()
 {
-	if (powerPelletTime == 0)
-	{
-		setTarget();
-		chooseDirection();
-	}
-	else
-	{
-		vector<direction> possibleDir;
-		if (canChangeDirection(UP))
-			possibleDir.push_back(UP);
-		if (canChangeDirection(DOWN))
-			possibleDir.push_back(DOWN);
-		if (canChangeDirection(LEFT))
-			possibleDir.push_back(LEFT);
-		if (canChangeDirection(RIGHT))
-			possibleDir.push_back(RIGHT);
-		dir = possibleDir[rand() % possibleDir.size()];
-	}
+	pair<int, int> nextLocation = getNextLocation();
+	int nextRow = nextLocation.first;
+	int nextCol = nextLocation.second;
 	int row = location.first;
 	int col = location.second;
-	int nextRow = row;
-	int nextCol = col;
-	switch (dir)
-	{
-	case UP:
-		nextRow = row - 1;
-		if (nextRow == -1)
-			nextRow = ROWS - 1;
-		break;
-	case DOWN:
-		nextRow = row + 1;
-		if (nextRow == ROWS)
-			nextRow = 0;
-		break;
-	case LEFT:
-		nextCol = col - 1;
-		if (nextCol == -1)
-			nextCol = COLS - 1;
-		break;
-	case RIGHT:
-		nextCol = col + 1;
-		if (nextCol == COLS)
-			nextCol = 0;
-		break;
-	default:
-		break;
-	}
 
 	gameObject obj = getInMap(nextRow, nextCol);
 
@@ -522,53 +491,11 @@ void PinkGhost::setTarget()
 
 void PinkGhost::move()
 {
-	if (powerPelletTime == 0)
-	{
-		setTarget();
-		chooseDirection();
-	}
-	else
-	{
-		vector<direction> possibleDir;
-		if (canChangeDirection(UP))
-			possibleDir.push_back(UP);
-		if (canChangeDirection(DOWN))
-			possibleDir.push_back(DOWN);
-		if (canChangeDirection(LEFT))
-			possibleDir.push_back(LEFT);
-		if (canChangeDirection(RIGHT))
-			possibleDir.push_back(RIGHT);
-		dir = possibleDir[rand() % possibleDir.size()];
-	}
+	pair<int, int> nextLocation = getNextLocation();
+	int nextRow = nextLocation.first;
+	int nextCol = nextLocation.second;
 	int row = location.first;
 	int col = location.second;
-	int nextRow = row;
-	int nextCol = col;
-	switch (dir)
-	{
-	case UP:
-		nextRow = row - 1;
-		if (nextRow == -1)
-			nextRow = ROWS - 1;
-		break;
-	case DOWN:
-		nextRow = row + 1;
-		if (nextRow == ROWS)
-			nextRow = 0;
-		break;
-	case LEFT:
-		nextCol = col - 1;
-		if (nextCol == -1)
-			nextCol = COLS - 1;
-		break;
-	case RIGHT:
-		nextCol = col + 1;
-		if (nextCol == COLS)
-			nextCol = 0;
-		break;
-	default:
-		break;
-	}
 
 	gameObject obj = getInMap(nextRow, nextCol);
 
@@ -679,53 +606,11 @@ void OrangeGhost::setTarget()
 
 void OrangeGhost::move()
 {
-	if (powerPelletTime == 0)
-	{
-		setTarget();
-		chooseDirection();
-	}
-	else
-	{
-		vector<direction> possibleDir;
-		if (canChangeDirection(UP))
-			possibleDir.push_back(UP);
-		if (canChangeDirection(DOWN))
-			possibleDir.push_back(DOWN);
-		if (canChangeDirection(LEFT))
-			possibleDir.push_back(LEFT);
-		if (canChangeDirection(RIGHT))
-			possibleDir.push_back(RIGHT);
-		dir = possibleDir[rand() % possibleDir.size()];
-	}
+	pair<int, int> nextLocation = getNextLocation();
+	int nextRow = nextLocation.first;
+	int nextCol = nextLocation.second;
 	int row = location.first;
 	int col = location.second;
-	int nextRow = row;
-	int nextCol = col;
-	switch (dir)
-	{
-	case UP:
-		nextRow = row - 1;
-		if (nextRow == -1)
-			nextRow = ROWS - 1;
-		break;
-	case DOWN:
-		nextRow = row + 1;
-		if (nextRow == ROWS)
-			nextRow = 0;
-		break;
-	case LEFT:
-		nextCol = col - 1;
-		if (nextCol == -1)
-			nextCol = COLS - 1;
-		break;
-	case RIGHT:
-		nextCol = col + 1;
-		if (nextCol == COLS)
-			nextCol = 0;
-		break;
-	default:
-		break;
-	}
 
 	gameObject obj = getInMap(nextRow, nextCol);
 

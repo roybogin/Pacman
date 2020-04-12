@@ -17,9 +17,9 @@ void init()
 
 void update()
 {
-	if (!blueGhost.getCanGetOut() && (coinsEaten < 30))
+	if (!blueGhost.getCanGetOut() && (coinsEaten >= 30))
 		blueGhost.allowGetOut();
-	if (!orangeGhost.getCanGetOut() && (float(coinsEaten) / float(NUMBER_OF_COINS) < 1.0 / 3.0))
+	if (!orangeGhost.getCanGetOut() && (float(coinsEaten) / float(NUMBER_OF_COINS) >= 1.0 / 3.0))
 		orangeGhost.allowGetOut();
 
 	speedCount++;

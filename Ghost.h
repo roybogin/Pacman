@@ -28,6 +28,7 @@ public:
 	std::pair<int, int> getLocation();
 	void allowGetOut();
 	bool getCanGetOut();
+	std::pair<int, int> getNextLocation();
 };
 
 class RedGhost : public Ghost
