@@ -14,6 +14,7 @@ protected:
 	bool isDead = false;
 	int powerPelletTime = 0;
 	bool isInGhostHouse;
+	bool canGetOut;
 public:
 	virtual void move() = 0;
 	void chooseDirection();
@@ -25,6 +26,8 @@ public:
 	int getPelletTime();
 	gameObject getOnSquare();
 	std::pair<int, int> getLocation();
+	void allowGetOut();
+	bool getCanGetOut();
 };
 
 class RedGhost : public Ghost

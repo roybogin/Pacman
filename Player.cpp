@@ -4,7 +4,7 @@
 
 Player::Player()
 {
-	location = pair<int, int>(1, 1);
+	location = pair<int, int>(23, 13);
 	dir = RIGHT;
 }
 
@@ -56,13 +56,15 @@ void Player::move()
 		setGameMap(row, col, gameObject::NOTHING);
 		setGameMap(nextRow, nextCol, gameObject::PLAYER);
 		location = pair<int, int>(nextRow, nextCol);
-		score++;
+		score += 10;
+		coinsEaten++;
 		break;
 	case gameObject::POWER_PELLET:
 		setGameMap(row, col, gameObject::NOTHING);
 		setGameMap(nextRow, nextCol, gameObject::PLAYER);
 		location = pair<int, int>(nextRow, nextCol);
-		score += 10;
+		score += 50;
+		ghostsEatenForPellet = 0;
 		redGhost.setPelletTime(PELLET_TIME);
 		blueGhost.setPelletTime(PELLET_TIME);
 		pinkGhost.setPelletTime(PELLET_TIME);
@@ -77,6 +79,8 @@ void Player::move()
 			{
 				redGhost.setIsDead(true);
 				redGhost.setPelletTime(0);
+				ghostsEatenForPellet++;
+				score += (pow(2, ghostsEatenForPellet) * 100);
 			}
 		}
 		setGameMap(row, col, gameObject::NOTHING);
@@ -92,6 +96,8 @@ void Player::move()
 			{
 				blueGhost.setIsDead(true);
 				blueGhost.setPelletTime(0);
+				ghostsEatenForPellet++;
+				score += (pow(2, ghostsEatenForPellet) * 100);
 			}
 		}
 		setGameMap(row, col, gameObject::NOTHING);
@@ -107,6 +113,8 @@ void Player::move()
 			{
 				pinkGhost.setIsDead(true);
 				pinkGhost.setPelletTime(0);
+				ghostsEatenForPellet++;
+				score += (pow(2, ghostsEatenForPellet) * 100);
 			}
 		}
 		setGameMap(row, col, gameObject::NOTHING);
@@ -122,6 +130,8 @@ void Player::move()
 			{
 				orangeGhost.setIsDead(true);
 				orangeGhost.setPelletTime(0);
+				ghostsEatenForPellet++;
+				score += (pow(2, ghostsEatenForPellet) * 100);
 			}
 		}
 		setGameMap(row, col, gameObject::NOTHING);

@@ -6,6 +6,8 @@ void init()
 	window.setKeyRepeatEnabled(false);
 	score = 0;
 	speedCount = 0;
+	ghostsEatenForPellet = 0;
+	coinsEaten = 0;
 	player = Player();
 	redGhost = RedGhost();
 	blueGhost = BlueGhost();
@@ -15,6 +17,11 @@ void init()
 
 void update()
 {
+	if (!blueGhost.getCanGetOut() && (coinsEaten < 30))
+		blueGhost.allowGetOut();
+	if (!orangeGhost.getCanGetOut() && (float(coinsEaten) / float(NUMBER_OF_COINS) < 1.0 / 3.0))
+		orangeGhost.allowGetOut();
+
 	speedCount++;
 	if (speedCount % (100 / PLAYER_SPEED) == 0)
 		player.move();
@@ -72,7 +79,7 @@ void draw()
 			}
 		}
 	}
-	window.display();
+	window.display();	//TODO: add lives and score
 }
 
 int main()

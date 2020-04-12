@@ -1,7 +1,7 @@
 #include "Ghost.h"
 #include "Data.h"
 #include "Funcs.h"
-//TODO: add condition for exiting house
+//todo: merge to function for all ghosts
 
 bool Ghost::canChangeDirection(Ghost::direction d)
 {
@@ -151,6 +151,15 @@ pair<int, int> Ghost::getLocation()
 	return location;
 }
 
+void Ghost::allowGetOut()
+{
+	canGetOut = true;
+}
+
+bool Ghost::getCanGetOut()
+{
+	return canGetOut;
+}
 
 ///////////////////////RED///////////////////////
 
@@ -160,6 +169,7 @@ RedGhost::RedGhost()
 	dir = LEFT;
 	onSquare = gameObject::NOTHING;
 	isInGhostHouse = false;
+	canGetOut = true;
 }
 
 void RedGhost::setTarget()
@@ -261,6 +271,8 @@ void RedGhost::move()
 			{
 				isDead = true;
 				powerPelletTime = 0;
+				ghostsEatenForPellet++;
+				score += (pow(2, ghostsEatenForPellet) * 100);
 			}
 		}
 		setGameMap(row, col, onSquare);
@@ -279,14 +291,14 @@ void RedGhost::move()
 	{
 		setGameMap(row, col, onSquare);
 		onSquare = pinkGhost.getOnSquare();
-		setGameMap(nextRow, nextCol, gameObject::PINK_GHOST);
+		setGameMap(nextRow, nextCol, gameObject::RED_GHOST);
 		location = pair<int, int>(nextRow, nextCol);
 	}
 	if (obj == gameObject::ORANGE_GHOST)
 	{
 		setGameMap(row, col, onSquare);
 		onSquare = orangeGhost.getOnSquare();
-		setGameMap(nextRow, nextCol, gameObject::ORANGE_GHOST);
+		setGameMap(nextRow, nextCol, gameObject::RED_GHOST);
 		location = pair<int, int>(nextRow, nextCol);
 	}
 
@@ -301,10 +313,16 @@ BlueGhost::BlueGhost()
 	dir = LEFT;
 	onSquare = gameObject::NOTHING;
 	isInGhostHouse = true;
+	canGetOut = false;
 }
 
 void BlueGhost::setTarget()
 {
+	if (!canGetOut)
+	{
+		target = pair<int, int>(14, 12);
+		return;
+	}
 	if (!isDead)
 	{
 		if (isInGhostHouse)
@@ -423,6 +441,8 @@ void BlueGhost::move()
 			{
 				isDead = true;
 				powerPelletTime = 0;
+				ghostsEatenForPellet++;
+				score += (pow(2, ghostsEatenForPellet) * 100);
 			}
 		}
 		setGameMap(row, col, onSquare);
@@ -434,21 +454,21 @@ void BlueGhost::move()
 	{
 		setGameMap(row, col, onSquare);
 		onSquare = redGhost.getOnSquare();
-		setGameMap(nextRow, nextCol, gameObject::RED_GHOST);
+		setGameMap(nextRow, nextCol, gameObject::BLUE_GHOST);
 		location = pair<int, int>(nextRow, nextCol);
 	}
 	if (obj == gameObject::PINK_GHOST)
 	{
 		setGameMap(row, col, onSquare);
 		onSquare = pinkGhost.getOnSquare();
-		setGameMap(nextRow, nextCol, gameObject::PINK_GHOST);
+		setGameMap(nextRow, nextCol, gameObject::BLUE_GHOST);
 		location = pair<int, int>(nextRow, nextCol);
 	}
 	if (obj == gameObject::ORANGE_GHOST)
 	{
 		setGameMap(row, col, onSquare);
 		onSquare = orangeGhost.getOnSquare();
-		setGameMap(nextRow, nextCol, gameObject::ORANGE_GHOST);
+		setGameMap(nextRow, nextCol, gameObject::BLUE_GHOST);
 		location = pair<int, int>(nextRow, nextCol);
 	}
 }
@@ -462,6 +482,7 @@ PinkGhost::PinkGhost()
 	dir = LEFT;
 	onSquare = gameObject::NOTHING;
 	isInGhostHouse = true;
+	canGetOut = true;
 }
 
 void PinkGhost::setTarget()
@@ -583,6 +604,8 @@ void PinkGhost::move()
 			{
 				isDead = true;
 				powerPelletTime = 0;
+				ghostsEatenForPellet++;
+				score += (pow(2, ghostsEatenForPellet) * 100);
 			}
 		}
 		setGameMap(row, col, onSquare);
@@ -594,21 +617,21 @@ void PinkGhost::move()
 	{
 		setGameMap(row, col, onSquare);
 		onSquare = redGhost.getOnSquare();
-		setGameMap(nextRow, nextCol, gameObject::RED_GHOST);
+		setGameMap(nextRow, nextCol, gameObject::PINK_GHOST);
 		location = pair<int, int>(nextRow, nextCol);
 	}
 	if (obj == gameObject::BLUE_GHOST)
 	{
 		setGameMap(row, col, onSquare);
 		onSquare = blueGhost.getOnSquare();
-		setGameMap(nextRow, nextCol, gameObject::BLUE_GHOST);
+		setGameMap(nextRow, nextCol, gameObject::PINK_GHOST);
 		location = pair<int, int>(nextRow, nextCol);
 	}
 	if (obj == gameObject::ORANGE_GHOST)
 	{
 		setGameMap(row, col, onSquare);
 		onSquare = orangeGhost.getOnSquare();
-		setGameMap(nextRow, nextCol, gameObject::ORANGE_GHOST);
+		setGameMap(nextRow, nextCol, gameObject::PINK_GHOST);
 		location = pair<int, int>(nextRow, nextCol);
 	}
 }
@@ -621,10 +644,16 @@ OrangeGhost::OrangeGhost()
 	dir = LEFT;
 	onSquare = gameObject::NOTHING;
 	isInGhostHouse = true;
+	canGetOut = false;
 }
 
-void OrangeGhost::setTarget()
+void OrangeGhost::setTarget()	
 {
+	if (!canGetOut)
+	{
+		target = pair<int, int>(14, 16);
+		return;
+	}
 	if (!isDead)
 	{
 		if (isInGhostHouse)
@@ -732,6 +761,8 @@ void OrangeGhost::move()
 			{
 				isDead = true;
 				powerPelletTime = 0;
+				ghostsEatenForPellet++;
+				score += (pow(2, ghostsEatenForPellet) * 100);
 			}
 		}
 		setGameMap(row, col, onSquare);
@@ -743,21 +774,21 @@ void OrangeGhost::move()
 	{
 		setGameMap(row, col, onSquare);
 		onSquare = redGhost.getOnSquare();
-		setGameMap(nextRow, nextCol, gameObject::RED_GHOST);	//todo: check change to self
+		setGameMap(nextRow, nextCol, gameObject::ORANGE_GHOST);
 		location = pair<int, int>(nextRow, nextCol);
 	}
 	if (obj == gameObject::BLUE_GHOST)
 	{
 		setGameMap(row, col, onSquare);
 		onSquare = blueGhost.getOnSquare();
-		setGameMap(nextRow, nextCol, gameObject::BLUE_GHOST);
+		setGameMap(nextRow, nextCol, gameObject::ORANGE_GHOST);
 		location = pair<int, int>(nextRow, nextCol);
 	}
 	if (obj == gameObject::PINK_GHOST)
 	{
 		setGameMap(row, col, onSquare);
 		onSquare = pinkGhost.getOnSquare();
-		setGameMap(nextRow, nextCol, gameObject::PINK_GHOST);
+		setGameMap(nextRow, nextCol, gameObject::ORANGE_GHOST);
 		location = pair<int, int>(nextRow, nextCol);
 	}
 }

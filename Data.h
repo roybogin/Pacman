@@ -22,9 +22,12 @@ const int BG_HEIGHT = BLOCK_SIZE * ROWS;
 const int PLAYER_SPEED = 20;
 const int GHOST_SPEED = 15;
 const int PELLET_TIME = 150;
+const int NUMBER_OF_COINS = 242;
 
 extern int speedCount;
 extern int score;
+extern int ghostsEatenForPellet;
+extern int coinsEaten;
 extern int gameMap[ROWS * COLS];
 
 extern RenderWindow window;

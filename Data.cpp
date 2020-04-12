@@ -9,6 +9,8 @@ OrangeGhost orangeGhost;
 
 int speedCount;
 int score;
+int ghostsEatenForPellet;
+int coinsEaten;
 
 //enum gameObject { NOTHING = 0, COIN = 1, PLAYER = 2, WALL = 3, RED_GHOST = 4, BLUE_GHOST = 5, PINK_GHOST = 6, ORANGE_GHOST = 7, POWER_PELLET = 8, ONE_WAY_DOOR = 9 };
 
