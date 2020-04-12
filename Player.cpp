@@ -5,7 +5,7 @@
 Player::Player()
 {
 	location = pair<int, int>(23, 13);
-	dir = RIGHT;
+	dir = LEFT;
 }
 
 std::pair<int, int> Player::getLocation()
@@ -74,7 +74,10 @@ void Player::move()
 		if (!redGhost.getIsDead())
 		{
 			if (redGhost.getPelletTime() == 0)
-				exit(0);
+			{
+				loseLife();
+				return;
+			}
 			else
 			{
 				redGhost.setIsDead(true);
@@ -91,7 +94,10 @@ void Player::move()
 		if (!blueGhost.getIsDead())
 		{
 			if (blueGhost.getPelletTime() == 0)
-				exit(0);
+			{
+				loseLife();
+				return;
+			}
 			else
 			{
 				blueGhost.setIsDead(true);
@@ -108,7 +114,10 @@ void Player::move()
 		if (!pinkGhost.getIsDead())
 		{
 			if (pinkGhost.getPelletTime() == 0)
-				exit(0);
+			{
+				loseLife();
+				return;
+			}
 			else
 			{
 				pinkGhost.setIsDead(true);
@@ -125,7 +134,10 @@ void Player::move()
 		if (!orangeGhost.getIsDead())
 		{
 			if (orangeGhost.getPelletTime() == 0)
-				exit(0);
+			{
+				loseLife();
+				return;
+			}
 			else
 			{
 				orangeGhost.setIsDead(true);

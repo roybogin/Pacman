@@ -13,12 +13,13 @@ class BlueGhost;
 class PinkGhost;
 class OrangeGhost;
 
-const int playerRadius = 10;
 const int ROWS = 31;
 const int COLS = 28;
+const int STARTING_ROWS = 3;
+const int ENDING_ROWS = 2;
 const int BLOCK_SIZE = 30;
 const int BG_WIDTH = BLOCK_SIZE * COLS;
-const int BG_HEIGHT = BLOCK_SIZE * ROWS;
+const int BG_HEIGHT = BLOCK_SIZE * (STARTING_ROWS + ROWS + ENDING_ROWS);
 const int PLAYER_SPEED = 20;
 const int GHOST_SPEED = 15;
 const int PELLET_TIME = 150;
@@ -28,7 +29,9 @@ extern int speedCount;
 extern int score;
 extern int ghostsEatenForPellet;
 extern int coinsEaten;
+extern int lives;
 extern int gameMap[ROWS * COLS];
+extern bool gameOver;
 
 extern RenderWindow window;
 extern Player player;

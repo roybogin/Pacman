@@ -2,12 +2,14 @@
 
 void init()
 {
+	gameOver = false;
 	srand(time(NULL));
 	window.setKeyRepeatEnabled(false);
 	score = 0;
 	speedCount = 0;
 	ghostsEatenForPellet = 0;
 	coinsEaten = 0;
+	lives = 3;
 	player = Player();
 	redGhost = RedGhost();
 	blueGhost = BlueGhost();
@@ -61,6 +63,10 @@ void update()
 	setGameMap(redGhost.getLocation().first, redGhost.getLocation().second, RED_GHOST);
 
 	setGameMap(player.getLocation().first, player.getLocation().second, PLAYER);
+	if (gameOver)
+	{
+		exit(0);
+	}
 
 }
 

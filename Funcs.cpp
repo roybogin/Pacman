@@ -1,8 +1,9 @@
 #include "Funcs.h"
 vector<Shape*> getShapes(int row, int col)
 {
-
-	switch (getInMap(row, col))
+	gameObject obj = getInMap(row, col);
+	row += STARTING_ROWS;
+	switch (obj)
 	{
 	case gameObject::NOTHING:
 	{
@@ -191,4 +192,26 @@ void setGameMap(int row, int col, gameObject object)
 	if (row < 0 || row >= ROWS || col < 0 || col >= COLS)
 		throw exception("index out of bounds");
 	gameMap[row * COLS + col] = object;
+}
+
+void loseLife()
+{
+	lives--;
+	if (lives == 0)
+	{
+		gameOver = true;
+		return;
+	}
+
+	setGameMap(player.getLocation().first, player.getLocation().second, NOTHING);
+	setGameMap(redGhost.getLocation().first, redGhost.getLocation().second, redGhost.getOnSquare());
+	setGameMap(blueGhost.getLocation().first, blueGhost.getLocation().second, blueGhost.getOnSquare());
+	setGameMap(pinkGhost.getLocation().first, pinkGhost.getLocation().second, pinkGhost.getOnSquare());
+	setGameMap(orangeGhost.getLocation().first, orangeGhost.getLocation().second, orangeGhost.getOnSquare());
+
+	player = Player();
+	redGhost = RedGhost();
+	blueGhost = BlueGhost();
+	pinkGhost = PinkGhost();
+	orangeGhost = OrangeGhost();
 }

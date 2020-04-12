@@ -1,7 +1,6 @@
 #include "Ghost.h"
 #include "Data.h"
 #include "Funcs.h"
-//todo: merge to function for all ghosts
 
 bool Ghost::canChangeDirection(Ghost::direction d)
 {
@@ -277,7 +276,10 @@ void RedGhost::move()
 		if (!isDead)
 		{
 			if (powerPelletTime == 0)
-				exit(0);
+			{
+				loseLife();
+				return;
+			}
 			else
 			{
 				isDead = true;
@@ -405,7 +407,10 @@ void BlueGhost::move()
 		if (!isDead)
 		{
 			if (powerPelletTime == 0)
-				exit(0);
+			{
+				loseLife();
+				return;
+			}
 			else
 			{
 				isDead = true;
@@ -526,7 +531,10 @@ void PinkGhost::move()
 		if (!isDead)
 		{
 			if (powerPelletTime == 0)
-				exit(0);
+			{
+				loseLife();
+				return;
+			}
 			else
 			{
 				isDead = true;
@@ -641,7 +649,10 @@ void OrangeGhost::move()
 		if (!isDead)
 		{
 			if (powerPelletTime == 0)
-				exit(0);
+			{
+				loseLife();
+				return;
+			}
 			else
 			{
 				isDead = true;
