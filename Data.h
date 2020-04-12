@@ -32,4 +32,4 @@ extern Player player;
 extern RedGhost redGhost;
 extern BlueGhost blueGhost;
 extern PinkGhost pinkGhost;
-//extern OrangeGhost orangeGhost;
+extern OrangeGhost orangeGhost;
