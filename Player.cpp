@@ -199,3 +199,13 @@ Player::direction Player::getDirection()
 {
 	return dir;
 }
+
+void Player::setMouthOpen(bool b)
+{
+	isMouthOpen = b;
+}
+
+bool Player::getMouthOpen()
+{
+	return isMouthOpen;
+}

@@ -9,6 +9,7 @@ public:
 private:
 	std::pair<int, int> location;
 	direction dir;
+	bool isMouthOpen;
 public:
 	Player();
 	std::pair<int, int> getLocation();
@@ -16,4 +17,6 @@ public:
 	void move();
 	bool canChangeDirection(direction d);
 	direction getDirection();
+	void setMouthOpen(bool open);
+	bool getMouthOpen();
 };

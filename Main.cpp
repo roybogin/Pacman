@@ -1,5 +1,4 @@
 #include "Funcs.h"
-
 void init()
 {
 	gameOver = false;
@@ -41,15 +40,15 @@ void update()
 
 	speedCount++;
 
-	//TODO: pacman mouth
-	//if (speedCount % (int)(SPEED_CONST * PLAYER_SPEED) < (SPEED_CONST * PLAYER_SPEED) / 2)
-	//	cout << 1;
-	//else
-	//	cout << 2;
-
-
 	if (speedCount % (int)(SPEED_CONST * PLAYER_SPEED) == 0)
+	{
 		player.move();
+	}
+
+	if (!player.getMouthOpen() && speedCount % (int)(SPEED_CONST * PLAYER_SPEED) < (SPEED_CONST * PLAYER_SPEED) / 2)
+		player.setMouthOpen(true);
+	if (player.getMouthOpen() && speedCount % (int)(SPEED_CONST * PLAYER_SPEED) >= (SPEED_CONST * PLAYER_SPEED) / 2)
+		player.setMouthOpen(false);
 
 	if (speedCount % (int)(SPEED_CONST * GHOST_SPEED) == 0)
 		redGhost.move();
@@ -116,7 +115,7 @@ void draw()
 	window.draw(scoreText);
 	window.draw(scoreValueText);
 	drawLives();
-	window.display();	//TODO: add lives and score
+	window.display();
 }
 
 int main()

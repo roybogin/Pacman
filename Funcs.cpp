@@ -36,6 +36,31 @@ vector<Shape*> getShapes(int row, int col)
 		shape->setPosition(Vector2f(col * BLOCK_SIZE, row * BLOCK_SIZE));
 		shape->setFillColor(Color(255, 255, 0));
 		vec.push_back(shape);
+		if (player.getMouthOpen())
+		{
+			CircleShape* mouth = new CircleShape(BLOCK_SIZE / 3.0, 3);
+			mouth->setOrigin(BLOCK_SIZE / 3.0, BLOCK_SIZE / 3.0);
+			mouth->setFillColor(Color());
+			switch (player.getDirection())
+			{
+			case Player::UP:
+				mouth->setRotation(180);
+				mouth->setPosition(Vector2f((col + 1.0 / 2) * BLOCK_SIZE, (row + 1.0 / 6) * BLOCK_SIZE));
+				break;
+			case Player::DOWN:
+				mouth->setPosition(Vector2f((col + 1.0 / 2) * BLOCK_SIZE, (row + 5.0 / 6) * BLOCK_SIZE));
+				break;
+			case Player::LEFT:
+				mouth->setRotation(-30);
+				mouth->setPosition(Vector2f((col + 1.0 / 6) * BLOCK_SIZE, (row + 1.0 / 2) * BLOCK_SIZE));
+				break;
+			case Player::RIGHT:
+				mouth->setRotation(30);
+				mouth->setPosition(Vector2f((col + 5.0 / 6) * BLOCK_SIZE, (row + 1.0 / 2) * BLOCK_SIZE));
+				break;
+			}
+			vec.push_back(mouth);
+		}
 		return vec;
 	}
 	case gameObject::WALL:
@@ -234,7 +259,6 @@ void drawLives()
 		life.setFillColor(Color(255, 255, 0));
 		window.draw(life);
 		CircleShape mouth = CircleShape(2 * BLOCK_SIZE / 3.0, 3);
-		mouth.setFillColor(Color(255, 255, 255));
 		mouth.setOrigin(2 * BLOCK_SIZE / 3.0, 2 * BLOCK_SIZE / 3.0);
 		mouth.setRotation(30);
 		mouth.setFillColor(Color());
