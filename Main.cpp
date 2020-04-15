@@ -43,12 +43,8 @@ void update()
 	if (speedCount % (int)(SPEED_CONST * PLAYER_SPEED) == 0)
 	{
 		player.move();
+		player.setMouthOpen(!player.getMouthOpen());
 	}
-
-	if (!player.getMouthOpen() && speedCount % (int)(SPEED_CONST * PLAYER_SPEED) < (SPEED_CONST * PLAYER_SPEED) / 2)
-		player.setMouthOpen(true);
-	if (player.getMouthOpen() && speedCount % (int)(SPEED_CONST * PLAYER_SPEED) >= (SPEED_CONST * PLAYER_SPEED) / 2)
-		player.setMouthOpen(false);
 
 	if (speedCount % (int)(SPEED_CONST * GHOST_SPEED) == 0)
 		redGhost.move();
