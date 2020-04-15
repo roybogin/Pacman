@@ -1,7 +1,9 @@
 #include "Funcs.h"
+
 void init()
 {
-	gameOver = false;
+	lost = false;
+	won = false;
 	if (!scoreFont.loadFromFile("score.ttf"))
 		throw exception("font file was not found");
 	srand(time(NULL));
@@ -23,6 +25,7 @@ void init()
 	speedCount = 0;
 	ghostsEatenForPellet = 0;
 	coinsEaten = 0;
+	pelletsEaten = 0;
 	lives = 3;
 	player = Player();
 	redGhost = RedGhost();
@@ -85,8 +88,13 @@ void update()
 	scoreValueText.setString(std::to_string(score));
 	scoreValueText.setPosition(Vector2f(getXForTextInMiddle(scoreValueText), BLOCK_SIZE));
 
+	if (won)
+	{
+		score += 3000;
+		exit(0);
+	}
 
-	if (gameOver)
+	if (lost)
 	{
 		exit(0);
 	}

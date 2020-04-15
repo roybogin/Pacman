@@ -20,19 +20,22 @@ const int ENDING_ROWS = 2;
 const int BLOCK_SIZE = 30;
 const int BG_WIDTH = BLOCK_SIZE * COLS;
 const int BG_HEIGHT = BLOCK_SIZE * (STARTING_ROWS + ROWS + ENDING_ROWS);
-const int SPEED_CONST = 20;
+const int SPEED_CONST = 20;	//bigger const means slower game
 const double PLAYER_SPEED = 0.25;
 const double GHOST_SPEED = 1.0/3;
 const int PELLET_TIME = 300;
+const int PELLET_BLINK = 50;
 const int NUMBER_OF_COINS = 242;
 
 extern int speedCount;
 extern int score;
 extern int ghostsEatenForPellet;
 extern int coinsEaten;
+extern int pelletsEaten;
 extern int lives;
 extern int gameMap[ROWS * COLS];
-extern bool gameOver;
+extern bool lost;
+extern bool won;
 
 extern RenderWindow window;
 extern Font scoreFont;

@@ -79,8 +79,10 @@ vector<Shape*> getShapes(int row, int col)
 		shape->setPosition(Vector2f(col * BLOCK_SIZE, row * BLOCK_SIZE));
 		if (!redGhost.getIsDead())
 		{
-			if (redGhost.getPelletTime() == 0)
+			if (redGhost.getPelletTime() == 0)	//not in pellet time
 				shape->setFillColor(Color(255, 0, 0));
+			else if (redGhost.getPelletTime() <= PELLET_BLINK && redGhost.getPelletTime() % 10 < 5)
+				shape->setFillColor(Color(255, 255, 255));
 			else
 				shape->setFillColor(Color(0, 0, 255));
 		}
@@ -109,6 +111,8 @@ vector<Shape*> getShapes(int row, int col)
 		{
 			if (blueGhost.getPelletTime() == 0)
 				shape->setFillColor(Color(0, 255, 255));
+			else if (blueGhost.getPelletTime() <= PELLET_BLINK && blueGhost.getPelletTime() % 10 < 5)
+				shape->setFillColor(Color(255, 255, 255));
 			else
 				shape->setFillColor(Color(0, 0, 255));
 		}
@@ -137,6 +141,8 @@ vector<Shape*> getShapes(int row, int col)
 		{
 			if (pinkGhost.getPelletTime() == 0)
 				shape->setFillColor(Color(255, 184, 255));
+			else if (pinkGhost.getPelletTime() <= PELLET_BLINK && pinkGhost.getPelletTime() % 10 < 5)
+				shape->setFillColor(Color(255, 255, 255));
 			else
 				shape->setFillColor(Color(0, 0, 255));
 		}
@@ -165,6 +171,8 @@ vector<Shape*> getShapes(int row, int col)
 		{
 			if (orangeGhost.getPelletTime() == 0)
 				shape->setFillColor(Color(255, 184, 82));
+			else if (orangeGhost.getPelletTime() <= PELLET_BLINK && orangeGhost.getPelletTime() % 10 < 5)
+				shape->setFillColor(Color(255, 255, 255));
 			else
 				shape->setFillColor(Color(0, 0, 255));
 		}
@@ -224,7 +232,8 @@ void loseLife()
 	lives--;
 	if (lives == 0)
 	{
-		gameOver = true;
+		if(!won)
+			lost = true;
 		return;
 	}
 
@@ -265,4 +274,22 @@ void drawLives()
 		mouth.setPosition(Vector2f((blockX + 3 * i + 5.0 / 3) * BLOCK_SIZE, (blockY + 1) * BLOCK_SIZE));
 		window.draw(mouth);
 	}
+}
+
+bool coinOrPelletInGame()
+{
+	if (redGhost.getOnSquare() == COIN || redGhost.getOnSquare() == POWER_PELLET)
+		return true;
+	if (blueGhost.getOnSquare() == COIN || blueGhost.getOnSquare() == POWER_PELLET)
+		return true;
+	if (pinkGhost.getOnSquare() == COIN || pinkGhost.getOnSquare() == POWER_PELLET)
+		return true;
+	if (orangeGhost.getOnSquare() == COIN || orangeGhost.getOnSquare() == POWER_PELLET)
+		return true;
+	for (int i : gameMap)
+	{
+		if (i == COIN || i == POWER_PELLET)
+			return true;
+	}
+	return false;
 }

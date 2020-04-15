@@ -58,6 +58,8 @@ void Player::move()
 		location = pair<int, int>(nextRow, nextCol);
 		score += 10;
 		coinsEaten++;
+		if (!lost && !coinOrPelletInGame())
+				won = true;
 		break;
 	case gameObject::POWER_PELLET:
 		setGameMap(row, col, gameObject::NOTHING);
@@ -69,6 +71,9 @@ void Player::move()
 		blueGhost.setPelletTime(PELLET_TIME);
 		pinkGhost.setPelletTime(PELLET_TIME);
 		orangeGhost.setPelletTime(PELLET_TIME);
+		pelletsEaten++;
+		if (!lost && !coinOrPelletInGame())
+			won = true;
 		break;
 	case gameObject::RED_GHOST:
 		if (!redGhost.getIsDead())

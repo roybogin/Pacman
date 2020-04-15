@@ -7,3 +7,4 @@ void setGameMap(int row, int col, gameObject object);
 void loseLife();
 float getXForTextInMiddle(Text text);
 void drawLives();
+bool coinOrPelletInGame();
