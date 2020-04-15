@@ -1,6 +1,9 @@
 #include "Data.h"
 
 RenderWindow window(VideoMode(BG_WIDTH, BG_HEIGHT), "Pacman");
+Font scoreFont;
+Text scoreText;
+Text scoreValueText;
 Player player;
 RedGhost redGhost;
 BlueGhost blueGhost;

@@ -215,3 +215,30 @@ void loseLife()
 	pinkGhost = PinkGhost();
 	orangeGhost = OrangeGhost();
 }
+
+float getXForTextInMiddle(Text text)
+{
+	float HalfTextLength = text.getGlobalBounds().width / 2.0;
+	float windowMiddle = COLS * BLOCK_SIZE / 2.0;
+	return windowMiddle - HalfTextLength;
+}
+
+void drawLives()
+{
+	int blockX = 2;
+	float blockY = STARTING_ROWS + ROWS;
+	for (int i = 0; i < lives; i++)
+	{
+		CircleShape life = CircleShape(BLOCK_SIZE);
+		life.setPosition(Vector2f((blockX + 3*i) * BLOCK_SIZE, blockY * BLOCK_SIZE));
+		life.setFillColor(Color(255, 255, 0));
+		window.draw(life);
+		CircleShape mouth = CircleShape(2 * BLOCK_SIZE / 3.0, 3);
+		mouth.setFillColor(Color(255, 255, 255));
+		mouth.setOrigin(2 * BLOCK_SIZE / 3.0, 2 * BLOCK_SIZE / 3.0);
+		mouth.setRotation(30);
+		mouth.setFillColor(Color());
+		mouth.setPosition(Vector2f((blockX + 3 * i + 5.0 / 3) * BLOCK_SIZE, (blockY + 1) * BLOCK_SIZE));
+		window.draw(mouth);
+	}
+}

@@ -3,9 +3,24 @@
 void init()
 {
 	gameOver = false;
+	if (!scoreFont.loadFromFile("score.ttf"))
+		throw exception("font file was not found");
 	srand(time(NULL));
 	window.setKeyRepeatEnabled(false);
 	score = 0;
+
+	scoreText.setFont(scoreFont);
+	scoreText.setString("SCORE");
+	scoreText.setFillColor(Color(255, 255, 255));
+	scoreText.setCharacterSize(BLOCK_SIZE);
+	scoreText.setPosition(Vector2f(getXForTextInMiddle(scoreText), 0));
+
+	scoreValueText.setFont(scoreFont);
+	scoreValueText.setString(std::to_string(score));
+	scoreValueText.setFillColor(Color(255, 255, 255));
+	scoreValueText.setCharacterSize(BLOCK_SIZE);
+	scoreValueText.setPosition(Vector2f(getXForTextInMiddle(scoreValueText), BLOCK_SIZE));
+
 	speedCount = 0;
 	ghostsEatenForPellet = 0;
 	coinsEaten = 0;
@@ -25,19 +40,27 @@ void update()
 		orangeGhost.allowGetOut();
 
 	speedCount++;
-	if (speedCount % (100 / PLAYER_SPEED) == 0)
+
+	//TODO: pacman mouth
+	//if (speedCount % (int)(SPEED_CONST * PLAYER_SPEED) < (SPEED_CONST * PLAYER_SPEED) / 2)
+	//	cout << 1;
+	//else
+	//	cout << 2;
+
+
+	if (speedCount % (int)(SPEED_CONST * PLAYER_SPEED) == 0)
 		player.move();
 
-	if (speedCount % (100 / GHOST_SPEED) == 0)
+	if (speedCount % (int)(SPEED_CONST * GHOST_SPEED) == 0)
 		redGhost.move();
-	if (speedCount % (100 / GHOST_SPEED) == 0)
+	if (speedCount % (int)(SPEED_CONST * GHOST_SPEED) == 0)
 		blueGhost.move();
-	if (speedCount % (100 / GHOST_SPEED) == 0)
+	if (speedCount % (int)(SPEED_CONST * GHOST_SPEED) == 0)
 		pinkGhost.move();
-	if (speedCount % (100 / GHOST_SPEED) == 0)
+	if (speedCount % (int)(SPEED_CONST * GHOST_SPEED) == 0)
 		orangeGhost.move();
 
-	if ((speedCount % (100 / PLAYER_SPEED) == 0) && (speedCount % (100 / GHOST_SPEED) == 0))
+	if (speedCount >= SPEED_CONST)
 		speedCount = 0;
 
 	if (redGhost.getPelletTime() > 0)
@@ -63,6 +86,11 @@ void update()
 	setGameMap(redGhost.getLocation().first, redGhost.getLocation().second, RED_GHOST);
 
 	setGameMap(player.getLocation().first, player.getLocation().second, PLAYER);
+
+	scoreValueText.setString(std::to_string(score));
+	scoreValueText.setPosition(Vector2f(getXForTextInMiddle(scoreValueText), BLOCK_SIZE));
+
+
 	if (gameOver)
 	{
 		exit(0);
@@ -85,6 +113,9 @@ void draw()
 			}
 		}
 	}
+	window.draw(scoreText);
+	window.draw(scoreValueText);
+	drawLives();
 	window.display();	//TODO: add lives and score
 }
 

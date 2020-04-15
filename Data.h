@@ -20,9 +20,10 @@ const int ENDING_ROWS = 2;
 const int BLOCK_SIZE = 30;
 const int BG_WIDTH = BLOCK_SIZE * COLS;
 const int BG_HEIGHT = BLOCK_SIZE * (STARTING_ROWS + ROWS + ENDING_ROWS);
-const int PLAYER_SPEED = 20;
-const int GHOST_SPEED = 15;
-const int PELLET_TIME = 150;
+const int SPEED_CONST = 20;
+const double PLAYER_SPEED = 0.25;
+const double GHOST_SPEED = 1.0/3;
+const int PELLET_TIME = 300;
 const int NUMBER_OF_COINS = 242;
 
 extern int speedCount;
@@ -34,6 +35,9 @@ extern int gameMap[ROWS * COLS];
 extern bool gameOver;
 
 extern RenderWindow window;
+extern Font scoreFont;
+extern Text scoreText;
+extern Text scoreValueText;
 extern Player player;
 extern RedGhost redGhost;
 extern BlueGhost blueGhost;
