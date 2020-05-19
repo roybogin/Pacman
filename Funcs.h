@@ -8,3 +8,5 @@ void loseLife();
 float getXForTextInMiddle(Text text);
 void drawLives();
 bool coinOrPelletInGame();
+void resetGameMap();
+string getMLValue(int obj);

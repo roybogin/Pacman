@@ -293,3 +293,42 @@ bool coinOrPelletInGame()
 	}
 	return false;
 }
+
+void resetGameMap()
+{
+	for (int i = 0; i < ROWS * COLS; i++)
+	{
+		gameMap[i] = startGameMap[i];
+	}
+}
+
+string getMLValue(int obj)
+{
+	return to_string(obj);
+
+	switch (obj)
+	{
+	case NOTHING:
+		break;
+	case COIN:
+		break;
+	case PLAYER:
+		break;
+	case WALL:
+		break;
+	case RED_GHOST:
+		break;
+	case BLUE_GHOST:
+		break;
+	case PINK_GHOST:
+		break;
+	case ORANGE_GHOST:
+		break;
+	case POWER_PELLET:
+		break;
+	case ONE_WAY_DOOR:
+		break;
+	default:
+		break;
+	}
+}

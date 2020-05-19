@@ -32,6 +32,11 @@ void init()
 	blueGhost = BlueGhost();
 	pinkGhost = PinkGhost();
 	orangeGhost = OrangeGhost();
+	if (MLSolver)
+	{
+		socketCreate();
+		socketConnect();
+	}
 }
 
 void update()
@@ -43,19 +48,19 @@ void update()
 
 	speedCount++;
 
-	if (speedCount % (int)(SPEED_CONST * PLAYER_SPEED) == 0)
+	if (speedCount % (int)(SPEED_CONST * SPEED) == 0)
 	{
 		player.move();
 		player.setMouthOpen(!player.getMouthOpen());
 	}
 
-	if (speedCount % (int)(SPEED_CONST * GHOST_SPEED) == 0)
+	if (speedCount % (int)(SPEED_CONST * SPEED) == 0)
 		redGhost.move();
-	if (speedCount % (int)(SPEED_CONST * GHOST_SPEED) == 0)
+	if (speedCount % (int)(SPEED_CONST * SPEED) == 0)
 		blueGhost.move();
-	if (speedCount % (int)(SPEED_CONST * GHOST_SPEED) == 0)
+	if (speedCount % (int)(SPEED_CONST * SPEED) == 0)
 		pinkGhost.move();
-	if (speedCount % (int)(SPEED_CONST * GHOST_SPEED) == 0)
+	if (speedCount % (int)(SPEED_CONST * SPEED) == 0)
 		orangeGhost.move();
 
 	if (speedCount >= SPEED_CONST)
@@ -126,46 +131,127 @@ int main()
 {
 
 	init();
-	
-	draw();
-	while (window.isOpen())
+	if (!MLSolver)
 	{
-
-		Event event;
-		while (window.pollEvent(event))
+		draw();
+		while (window.isOpen())
 		{
-			if (event.type == Event::Closed)
-				window.close();
-			if (event.type == Event::KeyPressed)
+
+			Event event;
+			while (window.pollEvent(event))
 			{
-				switch (event.key.code)
+				if (event.type == Event::Closed)
+					window.close();
+				if (event.type == Event::KeyPressed)
 				{
-				case Keyboard::Down:
-					if(player.canChangeDirection(player.DOWN))
-						player.setDirection(player.DOWN);
-					break;
-				case Keyboard::Up:
-					if (player.canChangeDirection(player.UP))
-						player.setDirection(player.UP);
-					break;
-				case Keyboard::Left:
-					if (player.canChangeDirection(player.LEFT))
-						player.setDirection(player.LEFT);
-					break;
-				case Keyboard::Right:
-					if (player.canChangeDirection(player.RIGHT))
-						player.setDirection(player.RIGHT);
-					break;
-				default:
-					break;
+					switch (event.key.code)
+					{
+					case Keyboard::Down:
+						if (player.canChangeDirection(player.DOWN))
+							player.setDirection(player.DOWN);
+						break;
+					case Keyboard::Up:
+						if (player.canChangeDirection(player.UP))
+							player.setDirection(player.UP);
+						break;
+					case Keyboard::Left:
+						if (player.canChangeDirection(player.LEFT))
+							player.setDirection(player.LEFT);
+						break;
+					case Keyboard::Right:
+						if (player.canChangeDirection(player.RIGHT))
+							player.setDirection(player.RIGHT);
+						break;
+					default:
+						break;
+					}
 				}
+
+			}
+			update();
+			draw();
+		}
+	}
+	else  	//Machine learning code	
+	{
+		int prev_score = 0;
+		while (1)
+		{
+			string done = "false";
+			string didWin = "false";
+			int reward = 0;
+			string recieved = socketRecv();
+			string toSend = "";
+			if (recieved == "input_num")
+				toSend = to_string(ROWS * COLS);
+			else if (recieved == "action_num")
+				toSend = "4";
+			else if (recieved == "input_shape")
+				toSend = to_string(ROWS) + "#" + to_string(COLS);
+			else if (recieved == "reset")
+			{
+				lost = false;
+				won = false;
+				score = 0;
+				speedCount = 0;
+				ghostsEatenForPellet = 0;
+				coinsEaten = 0;
+				pelletsEaten = 0;
+				player = Player();
+				redGhost = RedGhost();
+				blueGhost = BlueGhost();
+				pinkGhost = PinkGhost();
+				orangeGhost = OrangeGhost();
+				resetGameMap();
+				string observation;
+				for (int i = 0; i < ROWS * COLS; i++)
+				{
+					string text = getMLValue(gameMap[i]);
+					observation = observation + text;
+					if (i != ROWS * COLS - 1)
+						observation = observation + ", ";
+				}
+				toSend = observation;
+			}
+			else if (recieved == "close")
+			{
+				exit(0);
+			}
+			else if (recieved.substr(0, 4) == "step")
+			{
+				int action = stoi(recieved.substr(5));
+				if(player.canChangeDirection((Player::direction)action))
+					player.setDirection((Player::direction)action);
+				update();
+				reward = score - prev_score - 1;
+				if (lost)
+				{
+					done = "true";
+				}
+				else
+				{
+					if (won)
+					{
+						done = "true";
+						didWin = "true";
+					}
+				}
+				
+				string observation;
+				for (int i = 0; i < ROWS * COLS; i++)
+				{
+					string text = getMLValue(gameMap[i]);
+					observation = observation + text;
+					if (i != ROWS * COLS - 1)
+						observation = observation + ", ";
+				}
+				toSend = observation + "#" + to_string(reward) + "#" + done + "#" + didWin;
 			}
 
+			socketSend(toSend.c_str());
+			prev_score = score;
 		}
-		update();
-		draw();
-
-
 	}
+
 	return 0;
 }
